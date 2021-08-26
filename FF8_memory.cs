@@ -170,5 +170,6 @@ namespace FF8_TAS
         public static int TitleScreenChoice { get { return ReadMemoryAddress(0x1976968, 1); } }
         public static bool DialogueBoxOpen { get { return (ReadMemoryAddress(0x192B25D, 1) == 1); } }
         public static bool DialogueBoxText { get { return (ReadMemoryAddress(0x192B01E, 1) == 1); } }
+        public static int MapId { get { return ReadMemoryAddress(0x18D2C98, 2); } }
     }
 }

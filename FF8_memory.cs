@@ -7,30 +7,15 @@ using ProcessMemoryReaderLib;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Timers;
-using System.ComponentModel;
 
 namespace FF8_TAS
 {
-    class FF8_memory : INotifyPropertyChanged
+    class FF8_memory
     {
-        
-
         static readonly string GAME = "FF8_FR";
         static IntPtr baseAddress;
         static Process ff8;
-        static System.Timers.Timer memRead;
-        public static Dictionary<string, int> memory = new Dictionary<string, int>();
 
-        static Dictionary<string, int> addresses = new Dictionary<string, int>() {
-            {"InBattle", 0x18FF520},
-            {"InBattleResults", 0x167897C},
-            {"InNamingMenu", 0x18E45E3},
-            {"AtTitleScreen", 0x1976945},
-            {"TitleScreenChoice", 0x1976968},
-            {"DialogueBoxOpen", 0x192B25D},
-            {"DialogueBoxText", 0x192B01E}
-        };
 
         [DllImport("user32.dll")]
         public static extern IntPtr GetWindowThreadProcessId(IntPtr hWnd, out uint ProcessId);
@@ -41,47 +26,16 @@ namespace FF8_TAS
         [DllImport("user32.dll")]
         static extern bool SetForegroundWindow(IntPtr hWnd);
 
-        //
-        //https://stackoverflow.com/questions/2246777/raise-an-event-whenever-a-propertys-value-changed
-        //
-        protected void OnPropertyChanged(PropertyChangedEventArgs e)
+        static public void Start()
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-                handler(this, e);
-        }
-
-        protected void OnPropertyChanged(
-    [System.Runtime.CompilerServices.CallerMemberName] string propertyName = "")
-        {
-            OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
-        }
-        public void SetProperty(string name, int value)
-        {
-            if (value != memory[name])
-            {
-                memory[name] = value;
-                OnPropertyChanged(name);
-                OnImageFullPathChanged(EventArgs.Empty);
-            }
-        }
-        public int GetProperty(string name)
-        {
-            memory.TryGetValue(name, out int value);
-            return value;
-        }
-
-        public void Start()
-        {
-            ff8 = this.DetectGame();
-            this.ActivateGame();
-            this.BeginMonitoring();
+            ff8 = DetectGame();
+            ActivateGame();
         }
 
         ///<summary>
         ///Checks if a process is running, then stores the base address for reading memory.
         ///</summary>
-        Process DetectGame()
+        static Process DetectGame()
         {
             Logger.WriteLog("Looking for " + GAME + " in system process list.");
 
@@ -109,7 +63,7 @@ namespace FF8_TAS
             return gameProcess;
         }
 
-        void ActivateGame() {
+        static void ActivateGame() {
 
             string foregroundWindow;
 
@@ -127,12 +81,12 @@ namespace FF8_TAS
         }
 
         // If FF8 is exited
-        private void Myprc_Exited(object sender, EventArgs e)
+        static private void Myprc_Exited(object sender, EventArgs e)
         {
             Logger.WriteLog("FF8 exited.");
         }
 
-        string GetActiveProcessFileName()
+        static string GetActiveProcessFileName()
         {
             IntPtr hwnd = GetForegroundWindow();
             GetWindowThreadProcessId(hwnd, out uint pid);
@@ -140,41 +94,9 @@ namespace FF8_TAS
             return p.ProcessName;
         }
 
-        void BeginMonitoring()
-        {
-            this.InitializeMemory();
-            this.SetTimer();
-        }
-        void InitializeMemory()
-        {
-            Logger.WriteLog("Initializing memory dictionary");
-            foreach (KeyValuePair<string, int> entry in addresses)
-            {
-                memory.Add(entry.Key, ReadMemoryAddress(entry.Value, 1));
-            }
-            Logger.WriteLog("Initializing memory dictionary: complete");
-        }
-        void SetTimer()
-        {
-            // Create a timer with a two second interval.
-            memRead = new System.Timers.Timer(2000);
-            // Hook up the Elapsed event for the timer. 
-            memRead.Elapsed += OnTimedEvent;
-            memRead.AutoReset = true;
-            memRead.Enabled = true;
-        }
-
-        void OnTimedEvent(Object source, ElapsedEventArgs e)
-        {
-            foreach (KeyValuePair<string, int> entry in addresses)
-            {
-                this.SetProperty(entry.Key, ReadMemoryAddress(entry.Value, 1));
-            }
-        }
-
         /***************** M E M O R Y *****************/
 
-        private int ReadMemoryAddress(int offset, uint bytelength)
+        static private int ReadMemoryAddress(int offset, uint bytelength)
         {
             ProcessMemoryReader reader = new ProcessMemoryReader
             {
@@ -190,7 +112,7 @@ namespace FF8_TAS
             return i;
         }
 
-        private int ByteToInt(byte[] bytes, int size)
+        static private int ByteToInt(byte[] bytes, int size)
         {
             int i = 0;
             try
@@ -217,7 +139,7 @@ namespace FF8_TAS
 
         /***************** V A L U E S *****************/
 
-        /*
+        
         static List<int> PartyHP
         {
             get
@@ -248,7 +170,5 @@ namespace FF8_TAS
         public static int TitleScreenChoice { get { return ReadMemoryAddress(0x1976968, 1); } }
         public static bool DialogueBoxOpen { get { return (ReadMemoryAddress(0x192B25D, 1) == 1); } }
         public static bool DialogueBoxText { get { return (ReadMemoryAddress(0x192B01E, 1) == 1); } }
-        */
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

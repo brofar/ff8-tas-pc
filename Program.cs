@@ -19,11 +19,9 @@ namespace FF8_TAS
         static readonly short MAX_AXIS = 32767;
         static readonly short MIN_AXIS = -32768;
         static readonly int MASH_HZ = 7;
-        static FF8_memory memory;
         static void Main(string[] args)
         {
             ViGEmClient client = new ViGEmClient();
-            memory = new FF8_memory();
             controller = client.CreateXbox360Controller();
 
             controller.Connect();
@@ -34,8 +32,7 @@ namespace FF8_TAS
             Logger.WriteLog("Running game launcher.");
             Process.Start(FF8_PATH);
 
-            memory.Start();
-            memory.PropertyChanged;
+            FF8_memory.Start();
 
             NewGame();
             //TestValveMash();
@@ -52,11 +49,11 @@ namespace FF8_TAS
         static void NewGame()
         {
             Logger.WriteLog("Waiting for title screen.");
-            while (memory.GetProperty("AtTitleScreen") == 0)
+            while (!FF8_memory.AtTitleScreen)
             {
                 Thread.Sleep(500);
             }
-            while (memory.GetProperty("TitleScreenChoice") != 0)
+            while (FF8_memory.TitleScreenChoice != 0)
             {
                 Move("up");
             }
@@ -70,10 +67,15 @@ namespace FF8_TAS
             bool ready;
             do
             {
-                ready = memory.GetProperty("InNamingMenu") == 1;
+                ready = FF8_memory.InNamingMenu;
                 PressButton(Xbox360Button.A, 16);
             } while (!ready);
+
+            // Wait for game to accept inputs
+            // TODO: see if there's a way to do this from game memory instead of timer.
             Thread.Sleep(1000);
+
+            // Delete quall
             PressButton(Xbox360Button.B, 16);
             PressButton(Xbox360Button.B, 16);
             PressButton(Xbox360Button.B, 16);

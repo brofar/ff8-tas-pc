@@ -175,5 +175,8 @@ namespace FF8_TAS
         public static int StepId { get { return ReadMemoryAddress(0x18D2C90, 1); } }
         public static int RealStepId { get { return ReadMemoryAddress(0x18DC418, 1); } }
         public static int DangerValue { get { return ReadMemoryAddress(0x18DC422, 1); } }
+        public static int CarawayCode { get { return ReadMemoryAddress(0x18FE968, 1); } }
+        public static int EncounterId { get { return ReadMemoryAddress(0x1996A80, 2); } }
+        public static int ZellDuelTimer { get { return ReadMemoryAddress(0x1976428, 2); } }
     }
 }

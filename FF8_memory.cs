@@ -172,5 +172,8 @@ namespace FF8_TAS
         public static bool DialogueBoxText { get { return (ReadMemoryAddress(0x192B01E, 1) == 1); } }
         public static int MapId { get { return ReadMemoryAddress(0x18D2C98, 2); } }
         public static int StoryProgress { get { return ReadMemoryAddress(0x18FE790, 2); } }
+        public static int StepId { get { return ReadMemoryAddress(0x18D2C90, 1); } }
+        public static int RealStepId { get { return ReadMemoryAddress(0x18DC418, 1); } }
+        public static int DangerValue { get { return ReadMemoryAddress(0x18DC422, 1); } }
     }
 }

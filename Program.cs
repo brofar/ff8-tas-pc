@@ -60,7 +60,7 @@ namespace FF8_TAS
             PressButton(Xbox360Button.A);
             int startFmvSec = (3 * 60) + 25;
             Logger.WriteLog("New game started. Waiting " + startFmvSec + " seconds");
-            //Thread.Sleep(startFmvSec * 1000);
+            Thread.Sleep(startFmvSec * 1000);
         }
         static void NameSquall()
         {
@@ -83,6 +83,23 @@ namespace FF8_TAS
             PressButton(Xbox360Button.B, 16);
             PressButton(Xbox360Button.Start);
             PressButton(Xbox360Button.A);
+
+            do
+            {
+                ready = FF8_memory.MapId == 229;
+                PressButton(Xbox360Button.A, 16);
+            } while (!ready);
+
+            controller.SetAxisValue(Xbox360Axis.LeftThumbY, MIN_AXIS);
+
+            do {
+                ready = FF8_memory.DialogueBoxOpen;
+            } while (!ready);
+
+            while (FF8_memory.DialogueBoxOpen)
+            {
+                PressButton(Xbox360Button.A);
+            }
         }
         static void TestValveMash()
         {

@@ -178,5 +178,6 @@ namespace FF8_TAS
         public static int CarawayCode { get { return ReadMemoryAddress(0x18FE968, 1); } }
         public static int EncounterId { get { return ReadMemoryAddress(0x1996A80, 2); } }
         public static int ZellDuelTimer { get { return ReadMemoryAddress(0x1976428, 2); } }
+        public static bool InFmv { get { return (ReadMemoryAddress(0x1C9A470, 1) == 1); } }
     }
 }

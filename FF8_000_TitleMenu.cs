@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace FF8_TAS
 {
-    class FF8_TitleMenu
+    class FF8_000_TitleMenu
     {
         public static void NewGame()
         {

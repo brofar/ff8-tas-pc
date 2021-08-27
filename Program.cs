@@ -28,9 +28,9 @@ namespace FF8_TAS
 
             FF8_memory.Start();
 
-            FF8_TitleMenu.NewGame();
+            FF8_000_TitleMenu.NewGame();
             //TestValveMash();
-            FF8_Balamb_Intro.NameSquall();
+            FF8_001_Balamb_Intro.NameSquall();
             //FF8_Balamb_Intro.QuistisWalk();
 
             FF8_controller.Kill();

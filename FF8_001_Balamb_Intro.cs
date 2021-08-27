@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace FF8_TAS
 {
-    class FF8_Balamb_Intro
+    class FF8_001_Balamb_Intro
     {
         public static void NameSquall()
         {

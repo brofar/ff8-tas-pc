@@ -19,7 +19,7 @@ namespace FF8_TAS
 
             // Wait for game to accept inputs
             // TODO: see if there's a way to do this from game memory instead of timer.
-            Thread.Sleep(300);
+            Thread.Sleep(175);
 
             // Delete quall
             FF8_controller.PressB(16); // l

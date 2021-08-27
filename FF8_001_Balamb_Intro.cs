@@ -8,8 +8,9 @@ namespace FF8_TAS
 {
     class FF8_001_Balamb_Intro
     {
-        public static void NameSquall()
+        public static void Infirmary()
         {
+            Logger.WriteLog("Starting infirmary.");
             bool ready;
             do
             {
@@ -21,6 +22,7 @@ namespace FF8_TAS
             // TODO: see if there's a way to do this from game memory instead of timer.
             Thread.Sleep(175);
 
+            Logger.WriteLog("Naming Squall.");
             // Delete quall
             FF8_controller.PressB(16); // l
             FF8_controller.PressB(16); // l
@@ -29,17 +31,19 @@ namespace FF8_TAS
             FF8_controller.PressB(16); // q
             FF8_controller.PressStart(16);
             FF8_controller.PressA(16);
+
+            // Rest of infirmary dialogue
+            do
+            {
+                ready = FF8_memory.MapId == 229; // 229 == Hallway Map
+                FF8_controller.PressA();
+            } while (!ready);
         }
 
         public static void QuistisWalk()
         {
-            bool ready;
-            int progress = 0;
-            do
-            {
-                ready = FF8_memory.MapId == 229;
-                FF8_controller.PressA();
-            } while (!ready);
+            Logger.WriteLog("Starting hallway.");
+            int progress;
 
             // hold down
             //SetAxisValue(Xbox360Axis.LeftThumbY, Globals.MIN_AXIS);

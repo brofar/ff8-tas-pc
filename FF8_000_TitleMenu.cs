@@ -25,10 +25,12 @@ namespace FF8_TAS
             // Start new game
             FF8_controller.PressA(16);
 
+            Logger.WriteLog("New game started.");
+
             if (!Globals.LITE)
             {
                 int startFmvSec = (3 * 60) + 25;
-                Logger.WriteLog("New game started. Waiting " + startFmvSec + " seconds");
+                Logger.WriteLog("Waiting " + startFmvSec + " seconds for FMV.");
                 Thread.Sleep(startFmvSec * 1000);
             }
             else

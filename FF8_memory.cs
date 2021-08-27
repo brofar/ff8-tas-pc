@@ -62,7 +62,6 @@ namespace FF8_TAS
 
             return gameProcess;
         }
-
         static void ActivateGame() {
 
             string foregroundWindow;
@@ -137,9 +136,27 @@ namespace FF8_TAS
             return i;
         }
 
-        /***************** V A L U E S *****************/
+        /***************** F U N C T I O N S *****************/
+        public static bool AwaitControl()
+        {
+            Logger.WriteLog("Waiting for player control.");
+            bool controlsLocked = ReadMemoryAddress(0x199CCF0, 1) == 1;
+            
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            while (controlsLocked)
+            {
+                if(stopwatch.ElapsedMilliseconds % (30 * 1000) == 0)
+                {
+                    Logger.WriteLog("Waiting for player control (" + stopwatch.ElapsedMilliseconds / 1000 + "s).");
+                }
 
-        
+            }
+            stopwatch.Stop();
+            return true;
+        }
+
+        /***************** V A L U E S *****************/
         static List<int> PartyHP
         {
             get
@@ -162,6 +179,7 @@ namespace FF8_TAS
         // XP/AP Screen
         public static bool InBattleResults { get { return (ReadMemoryAddress(0x167897C, 1) == 1); }}
         public static bool InNamingMenu { get { return (ReadMemoryAddress(0x18E45E3, 1) == 1); }}
+        public static bool NamingMenuInputReady { get { return (ReadMemoryAddress(0x1929F58, 1) == 1); }}
         public static bool AtTitleScreen { get { return (ReadMemoryAddress(0x1976945, 1) == 1); }}
 
         // 0 = Nouvelle Partie

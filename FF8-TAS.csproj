@@ -46,7 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FF8_Balamb_Intro.cs" />
+    <Compile Include="FF8_controller.cs" />
     <Compile Include="FF8_memory.cs" />
+    <Compile Include="FF8_TitleMenu.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="ProcessMemoryReader.cs" />
     <Compile Include="Program.cs" />

@@ -14,7 +14,7 @@ namespace FF8_TAS
         static IXbox360Controller controller;
         static readonly short MAX_AXIS = 32767;
         static readonly short MIN_AXIS = -32768;
-        static readonly int MASH_HZ = 7;
+        static readonly int MASH_HZ = 16; //7
 
         public static void Init()
         {
@@ -31,11 +31,11 @@ namespace FF8_TAS
         static void PressButton(Xbox360Button button, int delay = -1)
         {
             int sleepTime = (delay == -1) ? MASH_HZ : delay;
-            Console.WriteLine("Pressing " + button.Name);
+            //Console.WriteLine("Pressing " + button.Name);
             controller.SetButtonState(button, true);
             Thread.Sleep(sleepTime);
             controller.SetButtonState(button, false);
-            Thread.Sleep(sleepTime);
+            Thread.Sleep(MASH_HZ);
         }
         public static void PressA(int delay = -1)
         {

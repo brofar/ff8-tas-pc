@@ -140,11 +140,10 @@ namespace FF8_TAS
         public static bool AwaitControl()
         {
             Logger.WriteLog("Waiting for player control.");
-            bool controlsLocked = ReadMemoryAddress(0x199CCF0, 1) == 1;
             
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            while (controlsLocked)
+            while (ControlsLocked)
             {
                 if(stopwatch.ElapsedMilliseconds % (30 * 1000) == 0)
                 {
@@ -197,5 +196,9 @@ namespace FF8_TAS
         public static int EncounterId { get { return ReadMemoryAddress(0x1996A80, 2); } }
         public static int ZellDuelTimer { get { return ReadMemoryAddress(0x1976428, 2); } }
         public static bool InFmv { get { return (ReadMemoryAddress(0x1C9A470, 1) == 1); } }
+        public static bool ControlsLocked { get { return ReadMemoryAddress(0x199CCF0, 1) == 1; } }
+        public static int CameraUsed { get { return ReadMemoryAddress(0x18E45DE, 1); } }
+        public static int FieldCoordX { get { return ReadMemoryAddress(0x1676F10, 4); } }
+        public static int FieldCoordY { get { return ReadMemoryAddress(0x1676F14, 4); } }
     }
 }

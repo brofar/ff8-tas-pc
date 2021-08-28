@@ -31,7 +31,9 @@ namespace FF8_TAS
             FF8_000_TitleMenu.NewGame();
             //TestValveMash();
             FF8_001_Balamb_Intro.Infirmary();
-            //FF8_001_Balamb_Intro.QuistisWalk();
+            FF8_001_Balamb_Intro.QuistisWalk();
+            FF8_001_Balamb_Intro.Classroom();
+            FF8_001_Balamb_Intro.Hallway2F();
 
             FF8_controller.Kill();
             Console.ReadLine();

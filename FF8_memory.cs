@@ -200,5 +200,7 @@ namespace FF8_TAS
         public static int CameraUsed { get { return ReadMemoryAddress(0x18E45DE, 1); } }
         public static int FieldCoordX { get { return ReadMemoryAddress(0x1676F10, 4); } }
         public static int FieldCoordY { get { return ReadMemoryAddress(0x1676F14, 4); } }
+        public static bool DialogeChoiceAvailable { get { return ReadMemoryAddress(0x18FE762, 1) == 1; } }
+        public static int SolidDialogueBoxChoice { get { return ReadMemoryAddress(0x192B033, 1); } }
     }
 }

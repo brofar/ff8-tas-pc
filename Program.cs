@@ -36,6 +36,7 @@ namespace FF8_TAS
             FF8_001_Balamb_Intro.Hallway2F();
 
             FF8_controller.Kill();
+            Logger.WriteLog("Finished all tasks.");
             Console.ReadLine();
         }
         private void Test(object sender, EventArgs e)

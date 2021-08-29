@@ -11,12 +11,10 @@ namespace FF8_TAS
         public static void Infirmary()
         {
             Logger.WriteLog("Starting infirmary.");
-            bool ready;
             do
             {
-                ready = FF8_memory.NamingMenuInputReady;
                 FF8_controller.PressA(16);
-            } while (!ready);
+            } while (!FF8_memory.NamingMenuInputReady);
 
             // Wait for game to accept inputs
             // TODO: see if there's a way to do this from game memory instead of timer.
@@ -35,18 +33,17 @@ namespace FF8_TAS
             // Rest of infirmary dialogue
             do
             {
-                ready = FF8_memory.MapId == 229; // 229 == Hallway Map
                 FF8_controller.PressA();
-            } while (!ready);
+            } while (FF8_memory.MapId != 229); // 229 == Hallway Map
         }
         public static void QuistisWalk()
         {
             Logger.WriteLog("Starting hallway.");
-            int progress;
 
             // hold down
             FF8_controller.HoldDown();
 
+            int progress;
             do
             {
                 progress = FF8_memory.StoryProgress;
@@ -62,87 +59,94 @@ namespace FF8_TAS
         {
             Logger.WriteLog("Starting classroom (2nd half).");
 
-            bool locked;
-            int camera, xCoord, yCoord, progress, mapId;
-
             // Quistis starts class
-            do
+            while (FF8_memory.ControlsLocked)
             {
-                locked = FF8_memory.ControlsLocked;
                 FF8_controller.PressA();
-            } while (locked);
+            }
 
+            // U then R, not UR
             FF8_controller.HoldUR();
 
             // Move to front
-            do
-            {
-                camera = FF8_memory.CameraUsed;
-            } while (camera == 0);
+            while (FF8_memory.CameraUsed == 0);
 
             FF8_controller.ReleaseUR();
             FF8_controller.HoldDR();
 
             // Quistis at 967, -2847
-            do
-            {
-                xCoord = FF8_memory.FieldCoordX;
-            } while (xCoord > 940);
+            while (FF8_memory.FieldCoordX > 940);
 
             FF8_controller.ReleaseDR();
             Thread.Sleep(16);
             FF8_controller.HoldRight();
-            //Thread.Sleep(2000);
-            
-            do
-            {
-                yCoord = FF8_memory.FieldCoordY;
-            } while (yCoord > -2778);
+            while (FF8_memory.FieldCoordY > -2778);
 
             FF8_controller.ReleaseRight();
 
             //Quistis dialogue
-            do
+            while (FF8_memory.StoryProgress < 16)
             {
-                progress = FF8_memory.StoryProgress;
                 FF8_controller.PressA();
-            } while (progress < 16);
+            }
 
             FF8_controller.HoldUR();
 
             // Classroom Door at 1458, -3313
-            do
-            {
-                yCoord = FF8_memory.FieldCoordY;
-            } while (yCoord > -3313);
+            while (FF8_memory.FieldCoordY > -3313);
 
             FF8_controller.ReleaseUR();
             Thread.Sleep(16);
             FF8_controller.HoldRight();
 
             // Leave classroom
-            do
-            {
-                mapId = FF8_memory.MapId;
-            } while (mapId != 139);
-
+            while (FF8_memory.FieldCoordX > 0);
+            
             FF8_controller.ReleaseRight();
             Thread.Sleep(16);
         }
         public static void Hallway2F()
         {
             Logger.WriteLog("Starting Selphie hallway.");
-            bool dialogue;
-            FF8_controller.HoldDL();
-            Thread.Sleep(2000);
-            FF8_controller.ReleaseDL();
-            FF8_controller.HoldDown();
-            do
-            {
-                dialogue = FF8_memory.DialogueBoxOpen;
-            } while (!dialogue);
-            FF8_controller.ReleaseDown();
 
+            // Ideal entry point is -369, -6600
+
+            // Down until -1160 - -1233, -6506
+            // DL until selphie
+
+            // Wait for squall to be in position
+            
+            FF8_controller.HoldDown();
+            FF8_controller.HoldLeft();
+            while (FF8_memory.FieldCoordX > -891) ;
+            FF8_controller.ReleaseLeft();
+            FF8_controller.HoldRight();
+            while (!FF8_memory.DialogueBoxOpen) ;
+            FF8_controller.ReleaseDown();
+            FF8_controller.ReleaseRight();
+
+            Logger.WriteLog("Waiting for a choice.");
+            while (!FF8_memory.DialogeChoiceAvailable)
+            {
+                FF8_controller.PressA();
+            }
+            Logger.WriteLog("Choice found.");
+            Thread.Sleep(50);
+
+            // "Are you okay?" First choice.
+            FF8_controller.PressA();
+
+            // Mash until tour option
+            Logger.WriteLog("Mash until tour option.");
+            while (!FF8_memory.DialogeChoiceAvailable)
+            {
+                FF8_controller.PressA();
+            }
+
+            Logger.WriteLog("Skip tour.");
+            // Skip tour
+            FF8_controller.MoveDown();
+            FF8_controller.PressA();
         }
     }
 }

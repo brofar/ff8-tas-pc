@@ -18,7 +18,7 @@ namespace FF8_TAS
 
             // Wait for game to accept inputs
             // TODO: see if there's a way to do this from game memory instead of timer.
-            Thread.Sleep(200);
+            Thread.Sleep(210);
 
             Logger.WriteLog("Naming Squall.");
             // Delete quall
@@ -78,7 +78,6 @@ namespace FF8_TAS
             while (FF8_memory.FieldCoordX > 940);
 
             FF8_controller.ReleaseDR();
-            Thread.Sleep(16);
             FF8_controller.HoldRight();
             while (FF8_memory.FieldCoordY > -2778);
 
@@ -96,14 +95,12 @@ namespace FF8_TAS
             while (FF8_memory.FieldCoordY > -3313);
 
             FF8_controller.ReleaseUR();
-            Thread.Sleep(16);
             FF8_controller.HoldRight();
 
             // Leave classroom
-            while (FF8_memory.FieldCoordX > 0);
+            while (FF8_memory.FieldCoordX > 0 && FF8_memory.MapId != 139);
             
             FF8_controller.ReleaseRight();
-            Thread.Sleep(16);
         }
         public static void Hallway2F()
         {
@@ -118,7 +115,13 @@ namespace FF8_TAS
             
             FF8_controller.HoldDown();
             FF8_controller.HoldLeft();
-            while (FF8_memory.FieldCoordX > -891) ;
+
+            // Field coords don't update as fast as map does so wait a bit before checking against coords
+            Thread.Sleep(3000);
+
+            while (FF8_memory.FieldCoordX < -800) ;
+
+            Logger.WriteLog("Releasing Left & Holding right");
             FF8_controller.ReleaseLeft();
             FF8_controller.HoldRight();
             while (!FF8_memory.DialogueBoxOpen) ;
@@ -131,7 +134,7 @@ namespace FF8_TAS
                 FF8_controller.PressA();
             }
             Logger.WriteLog("Choice found.");
-            Thread.Sleep(50);
+            Thread.Sleep(25);
 
             // "Are you okay?" First choice.
             FF8_controller.PressA();

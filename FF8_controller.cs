@@ -57,81 +57,44 @@ namespace FF8_TAS
         {
             PressButton(Xbox360Button.Start, delay);
         }
-        public static void MoveUp(int duration = -1)
-        {
-            duration = Math.Max(duration, MASH_HZ);
-
-            HoldUp();
-            Thread.Sleep(duration);
-            ReleaseUp();
-            Thread.Sleep(MASH_HZ);
-        }
         public static void HoldUp()
         {
             controller.SetAxisValue(Xbox360Axis.LeftThumbY, MAX_AXIS);
+            Thread.Sleep(MASH_HZ);
         }
         public static void ReleaseUp()
         {
             controller.SetAxisValue(Xbox360Axis.LeftThumbY, 0);
-        }
-        public static void MoveDown(int duration = -1)
-        {
-            duration = Math.Max(duration, MASH_HZ);
-
-            HoldDown();
-            Thread.Sleep(duration);
-            ReleaseDown();
             Thread.Sleep(MASH_HZ);
         }
         public static void HoldDown()
         {
             controller.SetAxisValue(Xbox360Axis.LeftThumbY, MIN_AXIS);
+            Thread.Sleep(MASH_HZ);
         }
         public static void ReleaseDown()
         {
             controller.SetAxisValue(Xbox360Axis.LeftThumbY, 0);
-        }
-        public static void MoveLeft(int duration = -1)
-        {
-            duration = Math.Max(duration, MASH_HZ);
-
-            HoldLeft();
-            Thread.Sleep(duration);
-            ReleaseLeft();
             Thread.Sleep(MASH_HZ);
         }
         public static void HoldLeft()
         {
             controller.SetAxisValue(Xbox360Axis.LeftThumbX, MIN_AXIS);
+            Thread.Sleep(MASH_HZ);
         }
         public static void ReleaseLeft()
         {
             controller.SetAxisValue(Xbox360Axis.LeftThumbX, 0);
-        }
-        public static void MoveRight(int duration = -1)
-        {
-            duration = Math.Max(duration, MASH_HZ);
-
-            HoldRight();
-            Thread.Sleep(duration);
-            ReleaseRight();
             Thread.Sleep(MASH_HZ);
         }
         public static void HoldRight()
         {
             controller.SetAxisValue(Xbox360Axis.LeftThumbX, MAX_AXIS);
+            Thread.Sleep(MASH_HZ);
         }
         public static void ReleaseRight()
         {
             controller.SetAxisValue(Xbox360Axis.LeftThumbX, 0);
-        }
-        public static void MoveUR(int duration = -1)
-        {
-            duration = Math.Max(duration, MASH_HZ);
-
-            HoldUR();
-            Thread.Sleep(duration);
-            ReleaseUR();
             Thread.Sleep(MASH_HZ);
         }
         public static void HoldUR()
@@ -144,15 +107,6 @@ namespace FF8_TAS
             ReleaseRight();
             ReleaseUp();
         }
-        public static void MoveUL(int duration = -1)
-        {
-            duration = Math.Max(duration, MASH_HZ);
-
-            HoldUL();
-            Thread.Sleep(duration);
-            ReleaseUL();
-            Thread.Sleep(MASH_HZ);
-        }
         public static void HoldUL()
         {
             HoldUp();
@@ -163,15 +117,7 @@ namespace FF8_TAS
             ReleaseLeft();
             ReleaseUp();
         }
-        public static void MoveDL(int duration = -1)
-        {
-            duration = Math.Max(duration, MASH_HZ);
-
-            HoldDL();
-            Thread.Sleep(duration);
-            ReleaseDL();
-            Thread.Sleep(MASH_HZ);
-        }
+        
         public static void HoldDL()
         {
             HoldDown();
@@ -182,15 +128,7 @@ namespace FF8_TAS
             ReleaseLeft();
             ReleaseDown();
         }
-        public static void MoveDR(int duration = -1)
-        {
-            duration = Math.Max(duration, MASH_HZ);
 
-            HoldDR();
-            Thread.Sleep(duration);
-            ReleaseDR();
-            Thread.Sleep(MASH_HZ);
-        }
         public static void HoldDR()
         {
             HoldDown();
@@ -200,6 +138,54 @@ namespace FF8_TAS
         {
             ReleaseRight();
             ReleaseDown();
+        }
+        public static void MoveUR(int duration = 0)
+        {
+            HoldUR();
+            Thread.Sleep(duration);
+            ReleaseUR();
+        }
+        public static void MoveUL(int duration = 0)
+        {
+            HoldUL();
+            Thread.Sleep(duration);
+            ReleaseUL();
+        }
+        public static void MoveDL(int duration = 0)
+        {
+            HoldDL();
+            Thread.Sleep(duration);
+            ReleaseDL();
+        }
+        public static void MoveDR(int duration = 0)
+        {
+            HoldDR();
+            Thread.Sleep(duration);
+            ReleaseDR();
+        }
+        public static void MoveUp(int duration = 0)
+        {
+            HoldUp();
+            Thread.Sleep(duration);
+            ReleaseUp();
+        }
+        public static void MoveDown(int duration = 0)
+        {
+            HoldDown();
+            Thread.Sleep(duration);
+            ReleaseDown();
+        }
+        public static void MoveLeft(int duration = 0)
+        {
+            HoldLeft();
+            Thread.Sleep(duration);
+            ReleaseLeft();
+        }
+        public static void MoveRight(int duration = 0)
+        {
+            HoldRight();
+            Thread.Sleep(duration);
+            ReleaseRight();
         }
     }
 }
